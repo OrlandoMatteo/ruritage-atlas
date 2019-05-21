@@ -1,0 +1,10 @@
+newmtl Sewer_with_bricks:Sewer_with_bricks
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Sewer with bricks_COLOR.jpg
+bump Sewer with bricks_BUMP.jpg -bm 0.06
+Ni 1.00
+Ks 0.12 0.12 0.12
+Ns 18.00

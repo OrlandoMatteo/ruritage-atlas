@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<head>    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS=false; L_NO_TOUCH=false; L_DISABLE_3D=false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!--
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.3.4/dist/leaflet.css"/> 
+
+
+
+
+-->
+    <script src="static/js/leaflet.awesome-markers.js"></script>
+    <script src="static/js/RM1Entities.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="static/css/swiper.css">
+
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    
+    <script type="text/javascript" src='static/js/jsFunctions.js'></script>
+
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+    
+    <link rel="stylesheet" href="static/js/opacity/lib/opacity/Control.Opacity.css" />
+    <script src="static/js/opacity/lib/opacity/Control.Opacity.js"></script>
+    
+    <link rel="stylesheet" href="static/modules/leaflet-search/src/leaflet-search.css" />
+    <script src="static/modules/leaflet-search/src/leaflet-search.js"></script>
+    <script src="static/modules/leaflet-search/src/leaflet-search-geocoder.js"></script>
+
+    <script src="static/js/opacity/lib/jquery/jquery-1.9.1.js"></script>
+    <script src="static/js/opacity/lib/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+    <link rel="stylesheet" href="static/js/opacity/lib/jquery/jquery-ui-1.10.3.custom.min.css" />
+
+
+    <!-- JSON DATA
+    <script type="text/javascript" src='static/db/roleModels.js'></script>
+    <script type="text/javascript" src='static/db/replicator.js'></script>
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    -->
+
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="static/css/custom.css">
+    <link rel="stylesheet" href="http://flatlogic.github.io/awesome-bootstrap-checkbox/demo/build.css"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height:70%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    
+
+
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style> #main_map {
+        width: 98%;
+        height: 100.0%;
+        left: 0.0%;
+        top: 160px;
+        position: fixed;
+        border-radius: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+        }
+        @media (max-width: 500px){
+          #main_map {
+            width: 100%;
+            height: 80.0%;
+            padding-top: 550px;
+            margin-top:30px; 
+            position: inherit;
+        }
+    </style>
+    <style>
+* {
+  box-sizing: border-box;
+}
+
+img.resize {
+  width:700%;
+  height:700%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+</style>
+
+<title>Ruritage Atlas</title>
+</head>
+<body> 
+    <div >
+    <nav class="navbar navbar-expand-lg navbar-light" style="position: fixed; width: 100%; z-index: 90000;background-color: white " >
+    <a class="navbar-brand" href="#">
+      <img src="static/img/RURITAGE_logo.jpg" class="d-inline-block align-top" alt="">
+    </a>
+    <a class="nav-link" href="/test">Atlas</a>
+    <a class="nav-link" href="/bestpractices">Lessons Learned</a>
+  </nav>
+</div>
+<div id="bpModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content" id="bpcontainer">
+          </div>
+      </div>
+<div class='row'>
+            <div class="col-lg-12" style="position: fixed;margin-top: 115px; z-index: 80000;background-color: white; height: 30px">
+              <div class="cdropdown">
+                  <button class="cdropbtn" id="siaDD" onclick="showSIAs()">SIAs</button>
+                </div>
+                <div class="cdropdown">
+                  <button class="cdropbtn"><img class="legend-icon" src="/static/img/rm_icon.png">Role Models</button>
+                  <div class="cdropdown-content" id="rmlist">
+                  </div>
+                </div>
+                <div class="cdropdown">
+                  <button class="cdropbtn"><img class="legend-icon" src="/static/img/r_icon.png">Replicators</button>
+                  <div class="cdropdown-content" id="rlist">
+                  </div>
+                </div>
+                <div class="cdropdown">
+                  <button class="cdropbtn" id="rm_rDD" onclick="showActors()">RM/R</button>
+                </div>
+                <div class="cdropdown" onclick="showTowns()">
+                  <img class="legend-icon"  src="/static/img/town4.png">Town
+                </div>
+                <div class="cdropdown" onclick="showBuildings()">
+                  <img class="legend-icon" src="/static/img/building.png">Building
+                </div>
+                <div class="cdropdown" onclick="showHistBuildings()">
+                  <img class="legend-icon" src="/static/img/histbuilding.png">Historic Building
+		</div> 
+            </div>
+
+</div>
+
+        <div class='row'>
+                <div class="folium-map" id="main_map" ></div>
+            <div class='' style="z-index: 500; max-width: 800px;margin-top: 160px;">     
+              <div class="rounddiv3">
+                    <!-- <button class="btn btn-primary" onclick="showActors()"  style="background-color: #023fa7">RM/R</button> -->
+                   <!--  <button class="btn btn-primary" onclick="showSIAs()">SIAs</button> -->
+                     <button class="btn btn-primary" style="display: none" id="townButton" onclick="showTowns()">Towns</button>
+                     <button class="btn btn-primary" style="display: none" id="siteButton" onclick="showSites()">Sites</button>
+                      <!---<button class="btn btn-primary" style="display: none" id="buildingButton" onclick="showBuildings()">Buildings</button>-->
+                     <button class="btn btn-success" style="display: none" id="imageButton" onclick="showImages()">Images</button>
+
+                </div>
+            </div>
+          </div>
+      <div class='row'>
+            <div class='' style="z-index: 500; margin-left: 20px;width: 330px;">
+                
+                <div id="roles" style="" class="rounddiv"><h4>Show on the map:</h4>
+                    <input type="checkbox" class="styled" value="RoleModel" onchange="updateMap()" checked="true"><!-- <i class="fas fa-trophy"></i>--> <b>Role Model </b>
+                    <br>
+                    <input type="checkbox" class="styled" value="Replicator" onchange="updateMap()" checked="true"> <!-- <i class="fas fa-user"></i>--> <b>Replicator</b>
+                    <br>    
+                </div>
+                <br>
+                <div id="sias"  style="" class="rounddiv"><h4>Select SIAs</h4>
+                    <input type="checkbox" value="Pilgrimage" onchange="updateMap()" checked="true">
+                    <img src="/static/img/Pilgrimage.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <input type="checkbox" value="SustainableFoodProduction" onchange="updateMap()" checked="true">
+                     <img src="/static/img/LocalFood.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <input type="checkbox" value="Migration"  onchange="updateMap()" checked="true">
+                     <img src="/static/img/Migration.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <input type="checkbox" value="ArtAndFestival" onchange="updateMap()" checked="true">
+                    <img src="/static/img/ArtAndFestival.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <input type="checkbox" value="Resilience" onchange="updateMap()" checked="true">
+                    <img src="/static/img/Resilience.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <input type="checkbox" value="IntegratedLandscapeManagement" onchange="updateMap()" checked="true">
+                    <img src="/static/img/Landscape.png" width="210" height="35" alt="pilgrimage banner" typeof="foaf:Image"><br>
+
+                    <button class="btn btn-secondary" onclick="selectall()">All SIAs</button>
+                </div>
+
+                <div id="buildings" style="" class="rounddiv"><h4>Buildings type</h4>
+                    {% for type in buiTypes %}
+                    <input type="checkbox" class="styled" value={{ type }} onchange="addBuildings()" checked="true"><b>{{ type }}</b>
+                    <br>
+                    {% endfor %}
+                    <input type="checkbox" id="allBui" class="styled" onchange="allBuiType()" checked="true"><b>Show/hide all</b>
+                </div>
+                
+            		<div id="histbuildings" style="" class="rounddiv"><h4>Historic buildings type</h4>
+            			<br>
+            			<a style="cursor: pointer; color:blue"  onClick="$('#histchecks').toggle()">show more/less</a>
+            		    <div id='histchecks' style='display: block'>
+            			    {% for type in histBuiTypes %}
+            			    <input type="checkbox" class="styled" value={{ type }} onchange="addHistBuildings()" checked="true">
+            			    <b>{{ type }}</b>
+            			    <br>
+            			    {% endfor %}
+            			    <input type="checkbox" id="allHistBui" class="styled" onchange="allHistBuiType()" checked="true">
+            			    <b>Show/hide all</b>
+            			    </div>	
+            		    </div>
+		    <br>
+                <div id="lateral" class="rounddiv2">                  
+                </div>        
+            </div>
+        </div>
+            <div class="swiper-container">
+              <div class="swiper-wrapper" id="imageContainer" style="display: none;">
+                
+              </div>
+              <!-- Add Pagination -->
+              <div class="swiper-pagination"style="position: fixed"></div>
+            </div>       
+            <!--<button onclick="">Show area</button>
+            <button onclick="add3d()">add3d</button>-->
+
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+      effect: 'coverflow',
+      grabCursor: false,
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows : true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+      },
+    });
+  </script>
+<script type="text/javascript">
+    
+    var slideIndex = 1;
+
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1} 
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none"; 
+  }
+  for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block"; 
+  dots[slideIndex-1].className += " active";
+}
+
+</script>
+
+<script>    
+    
+    
+        var bounds = null;
+    
+
+    var main_map = L.map(
+        'main_map', {
+        center: [0, 0],
+        zoom: 2,
+        maxBounds: bounds,
+        layers: [],
+        worldCopyJump: false,
+        crs: L.CRS.EPSG3857,
+        zoomControl: false,
+        });
+
+    zoomControl=L.control.zoom({position:'topright'}).addTo(main_map);
+    
+    var openstreetmap_layer = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+        "attribution": null, 
+        "detectRetina": false, 
+        "maxNativeZoom": 18, 
+        "maxZoom": 18, 
+        "minZoom": 0, 
+        "noWrap": false, 
+        "opacity": 1, 
+        "subdomains": "abc", 
+        "tms": false
+}).addTo(main_map);
+    var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
+
+    var example=L.tileLayer('https://api.mapbox.com/styles/v1/matteo-orlando/cjrcb08ss2adz2to56dqze3e2/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWF0dGVvLW9ybGFuZG8iLCJhIjoiY2puYndpaWxtMDhpZjN3cGU0cjYxNjl2MyJ9.seN7FeS88tx9yYwqMk5QIw',{opacity:0.5});
+
+    var camino=L.tileLayer('https://api.mapbox.com/styles/v1/matteo-orlando/cjrw4js6t20ed1frv8uui4k2k/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibWF0dGVvLW9ybGFuZG8iLCJhIjoiY2puYndpaWxtMDhpZjN3cGU0cjYxNjl2MyJ9.seN7FeS88tx9yYwqMk5QIw');
+
+    //var topology=L.tileLayer('https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=d8abaa72b3604758be5fc3d52354cff0');
+    var topology=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                              maxZoom: 17,
+                              attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                            });
+    var imageUrl='/static/img/FCM_21-1.png'
+    var imageBounds=[[5.985,-77.5],[3.465,-73.9]]
+    var image_layer=L.imageOverlay(imageUrl,imageBounds)
+    //var image_layer=L.l8afletGeotiff(imageUrl, {bounds: imageBounds})
+
+    main_map.createPane('Paths')
+    main_map.getPane('Paths').style.zIndex = 590;
+    main_map.createPane('Buildings')
+    main_map.getPane('Buildings').style.zIndex = 620;
+    main_map.createPane('Towns')
+    main_map.getPane('Towns').style.zIndex = 620;
+    main_map.createPane('Sites')
+    main_map.getPane('Sites').style.zIndex = 620;
+
+
+    var Paths=L.featureGroup().addTo(main_map);
+    var Areas=L.featureGroup().addTo(main_map);
+    var Buildings=L.featureGroup().addTo(main_map);
+    var Towns=L.featureGroup().addTo(main_map);
+    var Sites=L.featureGroup().addTo(main_map);
+    
+
+    
+var basemap={"Basemap":openstreetmap_layer};
+var overlay={'Satellite':Esri_WorldImagery, 'topology':topology, 'example':camino,'image':image_layer,'Paths':Paths,'Sites':Sites,'Areas':Areas,'Buildings':Buildings};
+L.control.layers(basemap, overlay).addTo(main_map);
+
+
+var opacitySlider1 = new L.Control.opacitySlider();
+var opacitySlider2 = new L.Control.opacitySlider();
+
+main_map.addControl(opacitySlider1);
+//main_map.addControl(opacitySlider2);
+opacitySlider1.setOpacityLayer([image_layer,Esri_WorldImagery,topology]);
+//opacitySlider2.setOpacityLayer(Esri_WorldImagery);
+
+
+/*var pilIcon=L.icon({
+    iconUrl: 'static/img/PilgrimageIcon.png',
+
+    iconSize:     [57, 23 ], // size of the icon
+});
+var marker = L.marker([51.5, -0.09],{icon:pilIcon}).addTo(main_map);
+marker.bindPopup('<iframe style="-ms-transform: scale(0.65)" src="http://84.124.106.115:8080/dashboard/snapshot/D00LjCDhOAboJJIacC6IjXhLD8HEfFCA?orgId=1"></iframe>',{maxWidth:600});*/
+
+//omnivore.kml('/static/db/Puntos_Palencia.kml').addTo(main_map);
+
+//var RMAreas=addRMArea();
+zoomflag=0;
+
+var areaLayer=false;
+var pathLayer=false;
+var townLayer=false;
+var buildingsLayer=false;
+var siteLayer=false;
+
+var histbuildingsLayer=false;
+var clickedTown;
+var clickedSite;
+var clickedBuilding;
+
+
+main_map.on('zoomend', hideOnZoom);
+main_map.on('moveend', hideOnMove);
+
+
+window.onLoad=updateMap();
+window.onLoad=createDropwdown();
+
+</script>
+
+
+</body>
